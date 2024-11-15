@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 import requests
 from models import db, Currency
 
@@ -51,7 +52,7 @@ def show_currencies():
 @app.route('/test_db')
 def test_db():
     try:
-        result = db.session.execute('SELECT 1')
+        result = db.session.execute(text('SELECT 1'))
         return jsonify({"message": "Bazo widze w tym cloudzie!", "result": result.fetchone()})
     except Exception as e:
         return jsonify({"error": f"Fail: {str(e)}"})
