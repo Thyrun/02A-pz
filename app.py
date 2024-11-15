@@ -117,28 +117,21 @@ def get_legacy_data(release_date):
 
 @app.route('/show/chart', methods=['GET'])
 def show_chart():
-    # currencies = db.session.query(Currencies).all()
-    #
-    # rates_by_currency = defaultdict(list)
-    # for currency in currencies:
-    #     if currency.exchange_rate and currency.date:
-    #         rates_by_currency[currency.currency_name].append(currency.exchange_rate)
-    #
-    # stability_data = {}
-    # for currency_name, rates in rates_by_currency.items():
-    #     if len(rates) > 1:
-    #         stability_data[currency_name] = variance(rates)
-    #
-    # sorted_stability = sorted(stability_data.items(), key=lambda x: x[1])
-    #
-    # return render_template('chart.html', stability_data=sorted_stability)
+    currencies = db.session.query(Currencies).all()
 
-    stability_data = [
-        ['USD', 0.05],
-        ['EUR', 0.07],
-        ['GBP', 0.02]
-    ]
-    return render_template('chart.html', stability_data=stability_data)
+    rates_by_currency = defaultdict(list)
+    for currency in currencies:
+        if currency.exchange_rate and currency.date:
+            rates_by_currency[currency.currency_name].append(currency.exchange_rate)
+
+    stability_data = {}
+    for currency_name, rates in rates_by_currency.items():
+        if len(rates) > 1:
+            stability_data[currency_name] = variance(rates)
+
+    sorted_stability = sorted(stability_data.items(), key=lambda x: x[1])
+
+    return render_template('chart.html', stability_data=sorted_stability)
 
 
 if __name__ == '__main__':
