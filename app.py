@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import requests
-from models import db, Currency
+from models import db, Currencies
 
 app = Flask(__name__)
 
@@ -26,11 +26,11 @@ def get_currencies():
 
         currencies = data[0]['rates']
         for entry in currencies:
-            currency = Currency.query.filter_by(currency_code=entry['code']).first()
+            currency = Currencies.query.filter_by(currency_code=entry['code']).first()
             if currency:
                 currency.exchange_rate = entry['mid']
             else:
-                currency = Currency(
+                currency = Currencies(
                     currency_name=entry['currency'],
                     currency_code=entry['code'],
                     exchange_rate=entry['mid']
@@ -45,7 +45,7 @@ def get_currencies():
 
 @app.route('/show', methods=['GET'])
 def show_currencies():
-    currencies = Currency.query.all()
+    currencies = Currencies.query.all()
     return render_template('table.html', currencies=currencies)
 
 
