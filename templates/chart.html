@@ -14,9 +14,11 @@
 
 
     <script>
-        const stabilityData = {{ stability_data | tojson }};
+        const stabilityData = {{ stability_data|tojson }};
 
         console.log(stabilityData);
+        console.log(stabilityData.map(item => item[0]))
+        console.log(stabilityData.map(item => item[1]))
 
         const ctx = document.getElementById('stabilityChart').getContext('2d');
 
@@ -26,7 +28,7 @@
                 labels: stabilityData.map(item => item[0]),
                 datasets: [{
                     label: 'Wariancja (Stabilność)',
-                    data: stabilityData.map(item => item[1]),
+                    data: stabilityData.map(item => [item[1]]),
                     backgroundColor: 'rgba(54, 162, 235, 0.6)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
