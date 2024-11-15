@@ -1,9 +1,8 @@
 from datetime import datetime
-from flask import Flask, render_template, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, jsonify
 from sqlalchemy import text
 import requests
-from datetime import date as thedate
+from collections import defaultdict
 from models import db, Currencies
 
 app = Flask(__name__)
@@ -43,24 +42,17 @@ def get_currencies():
 
 @app.route('/show', methods=['GET'])
 def show_currencies():
-    query_date = request.args.get('date', default=None)
+    currencies = Currencies.query.order_by(Currencies.currency_name, Currencies.date).all()
 
-    if query_date:
-        try:
-            selected_date = thedate.fromisoformat(query_date)
-            currencies = Currencies.query.filter_by(date=selected_date).all()
-            return render_template('table.html', currencies=currencies, selected_date=selected_date)
-        except ValueError:
-            return {"error": "Invalid date format. Use YYYY-MM-DD."}, 400
-    else:
-        # Query all currencies sorted by date for grouping
-        currencies = Currencies.query.order_by(Currencies.date.desc(), Currencies.currency_name).all()
-        from collections import defaultdict
-        grouped_currencies = defaultdict(list)
-        for currency in currencies:
-            grouped_currencies[currency.date].append(currency)
+    pivot_data = defaultdict(dict)
+    unique_dates = set()
+    for currency in currencies:
+        pivot_data[currency.currency_name][currency.date] = currency.exchange_rate
+        unique_dates.add(currency.date)
 
-        return render_template('table.html', grouped_currencies=grouped_currencies)
+    unique_dates = sorted(unique_dates)
+
+    return render_template('table.html', pivot_data=pivot_data, dates=unique_dates)
 
 
 @app.route('/test_db')
