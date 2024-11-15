@@ -134,6 +134,37 @@ def show_chart():
     return render_template('chart.html', stability_data=sorted_stability)
 
 
+@app.route('/show/linechart')
+def show_linechart():
+    currencies = Currencies.query.all()
+
+    currency_data = {
+        'USD': [],
+        'EUR': [],
+        'GBP': []
+    }
+    dates = []
+
+    for currency in currencies:
+        if currency.currency_code == 'USD':
+            currency_data['USD'].append(currency.exchange_rate)
+        elif currency.currency_code == 'EUR':
+            currency_data['EUR'].append(currency.exchange_rate)
+        elif currency.currency_code == 'GBP':
+            currency_data['GBP'].append(currency.exchange_rate)
+
+        if currency.date not in dates:
+            dates.append(currency.date)
+
+    dates.sort()
+
+    usd_data = [currency_data['USD'][i] for i in range(len(dates))]
+    eur_data = [currency_data['EUR'][i] for i in range(len(dates))]
+    gbp_data = [currency_data['GBP'][i] for i in range(len(dates))]
+
+    return render_template('linechart.html', dates=dates, usd_data=usd_data, eur_data=eur_data, gbp_data=gbp_data)
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
