@@ -159,11 +159,13 @@ def show_linechart():
     dates = [date for date in dates if date is not None]
     dates.sort()
 
+    formatted_dates = [date.strftime('%Y:%m:%d') for date in dates]
+
     usd_data = [currency_data['USD'][i] for i in range(len(dates))]
     eur_data = [currency_data['EUR'][i] for i in range(len(dates))]
     gbp_data = [currency_data['GBP'][i] for i in range(len(dates))]
 
-    return render_template('linechart.html', dates=dates, usd_data=usd_data, eur_data=eur_data, gbp_data=gbp_data)
+    return render_template('linechart.html', dates=formatted_dates, usd_data=usd_data, eur_data=eur_data, gbp_data=gbp_data)
 
 
 if __name__ == '__main__':
