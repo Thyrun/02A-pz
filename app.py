@@ -153,9 +153,10 @@ def show_linechart():
         elif currency.currency_code == 'GBP':
             currency_data['GBP'].append(currency.exchange_rate)
 
-        if currency.date not in dates:
+        if currency.date and currency.date not in dates:
             dates.append(currency.date)
 
+    dates = [date for date in dates if date is not None]
     dates.sort()
 
     usd_data = [currency_data['USD'][i] for i in range(len(dates))]
