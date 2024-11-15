@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stabilność walut</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>Wariancja</h1>
     <div style="width: 100%; height: 400px;">
         <canvas id="stabilityChart"></canvas>
@@ -76,5 +70,5 @@
         }
     });
 </script>
-</body>
-</html>
+{% endblock %}
+
