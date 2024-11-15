@@ -9,6 +9,11 @@ app.config.from_object(Config)
 db.init_app(app)
 
 
+@app.route('/')
+def hello_world():
+    return 'Dzień dobry, serwer działa :)'
+
+
 @app.route('/get', methods=['GET'])
 def get_currencies():
     url = "https://api.nbp.pl/api/exchangerates/tables/A?format=json"
