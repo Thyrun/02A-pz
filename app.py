@@ -13,7 +13,7 @@ db.init_app(app)
 
 @app.route('/')
 def hello_world():
-    return 'Dzień dobry, serwer działa :)'
+    return render_template('base.html')
 
 
 @app.route('/get', methods=['GET'])
