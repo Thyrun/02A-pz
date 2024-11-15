@@ -53,9 +53,14 @@ def show_currencies():
 def test_db():
     try:
         result = db.session.execute(text('SELECT 1'))
-        result_data = result.fetchone()  # Get the first result
-        result_list = [dict(row) for row in [result_data]]
-        return jsonify({"message": "Bazo widze w tym cloudzie!", "result": result_list})
+        result_data = result.fetchone()
+
+        if result_data is None:
+            return jsonify({"error": "No result returned from the query"})
+
+        result_dict = {key: value for key, value in result_data.items()}
+
+        return jsonify({"message": "Bazo widze w tym cloudzie!", "result": result_dict})
     except Exception as e:
         return jsonify({"error": f"Fail: {str(e)}"})
 
