@@ -4,6 +4,9 @@ import requests
 from models import db, Currency
 
 app = Flask(__name__)
+
+app.config.from_pyfile('config.py')
+
 db.init_app(app)
 
 

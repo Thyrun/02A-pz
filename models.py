@@ -10,4 +10,4 @@ class Currency(db.Model):
     exchange_rate = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
-        return f'<Currency {self.currency_code}>'
+        return f'<Waluta {self.code}>'
