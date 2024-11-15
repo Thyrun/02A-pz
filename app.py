@@ -48,6 +48,15 @@ def show_currencies():
     return render_template('table.html', currencies=currencies)
 
 
+@app.route('/test_db')
+def test_db():
+    try:
+        result = db.session.execute('SELECT 1')
+        return jsonify({"message": "Bazo widze w tym cloudzie!", "result": result.fetchone()})
+    except Exception as e:
+        return jsonify({"error": f"Fail: {str(e)}"})
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
