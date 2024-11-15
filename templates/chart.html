@@ -13,30 +13,30 @@
     </div>
 
 
-    <script>
-        const stabilityData = {{ stability_data|tojson }};
+<script>
+    const stabilityData = {{ stability_data|tojson }};
 
-        console.log(stabilityData);
-        console.log(stabilityData.map(item => item[0]))
-        console.log(stabilityData.map(item => item[1]))
+    console.log(stabilityData);
+    console.log(stabilityData.map(item => item[0]))
+    console.log(stabilityData.map(item => item[1]))
 
-        const ctx = document.getElementById('stabilityChart').getContext('2d');
+    const ctx = document.getElementById('stabilityChart').getContext('2d');
 
-        const stabilityChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: stabilityData.map(item => item[0]),
-                datasets: [{
-                    label: 'Wariancja (Stabilność)',
-                    data: stabilityData.map(item => [item[1]]),
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
+    const stabilityChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: stabilityData.map(item => item[0]),
+            datasets: [{
+                label: 'Wariancja (Stabilność)',
+                data: stabilityData.map(item => [item[1]]),
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             scales: {
                 x: {
                     beginAtZero: true,
@@ -59,7 +59,7 @@
             },
             plugins: {
                 legend: {
-                    display: false
+                    display: true
                 },
                 tooltip: {
                     callbacks: {
@@ -70,7 +70,7 @@
                 }
             }
         }
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
