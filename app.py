@@ -42,17 +42,17 @@ def get_currencies():
 
 @app.route('/show', methods=['GET'])
 def show_currencies():
-    currencies = Currencies.query.order_by(Currencies.currency_name, Currencies.date).all()
+    dates = db.session.query(Currencies.date).filter(Currencies.date.isnot(None)).distinct().all()
+    unique_dates = sorted([d[0] for d in dates])
+
+    currencies = db.session.query(Currencies).all()
 
     pivot_data = defaultdict(dict)
-    unique_dates = set()
     for currency in currencies:
-        pivot_data[currency.currency_name][currency.date] = currency.exchange_rate
-        unique_dates.add(currency.date)
+        if currency.date:
+            pivot_data[currency.currency_name][currency.date] = currency.exchange_rate
 
-    unique_dates = sorted(unique_dates)
-
-    return render_template('table.html', pivot_data=pivot_data, dates=unique_dates)
+    return render_template('vertical_table.html', pivot_data=pivot_data, dates=unique_dates)
 
 
 @app.route('/test_db')
