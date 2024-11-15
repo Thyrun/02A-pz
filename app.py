@@ -65,14 +65,14 @@ def test_db():
 @app.route('/history/<currency_code>')
 def currency_history(currency_code):
     try:
-        historical_data = Currencies.query.filter_by(currency_code=currency_code).order_by(Currencies.date).all()
+        historical_data = Currencies.query.filter_by(currency_code=currency_code.upper()).order_by(Currencies.date).all()
 
         history = [{
             'date': entry.date,
             'exchange_rate': entry.exchange_rate
         } for entry in historical_data]
 
-        return jsonify({'currency_code': currency_code, 'history': history})
+        return jsonify({'currency_code': currency_code.upper(), 'history': history})
 
     except Exception as e:
         return jsonify({"error": f"Nie udało się pobrać danych dla {currency_code}: {str(e)}"})
