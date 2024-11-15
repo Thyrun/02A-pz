@@ -4,6 +4,7 @@ from sqlalchemy import text
 import requests
 from collections import defaultdict
 from models import db, Currencies
+from statistics import variance
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -112,6 +113,25 @@ def get_legacy_data(release_date):
         return jsonify({"message": "Waluty zapisane dla daty " + release_date})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/show/chart', methods=['GET'])
+def show_chart():
+    currencies = db.session.query(Currencies).all()
+
+    rates_by_currency = defaultdict(list)
+    for currency in currencies:
+        if currency.exchange_rate and currency.date:
+            rates_by_currency[currency.currency_name].append(currency.exchange_rate)
+
+    stability_data = {}
+    for currency_name, rates in rates_by_currency.items():
+        if len(rates) > 1:
+            stability_data[currency_name] = variance(rates)
+
+    sorted_stability = sorted(stability_data.items(), key=lambda x: x[1])
+
+    return render_template('chart.html', stability_data=sorted_stability)
 
 
 if __name__ == '__main__':
