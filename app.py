@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, Response
 from sqlalchemy import text
 import requests
 from collections import defaultdict
@@ -166,6 +166,24 @@ def show_linechart():
     gbp_data = [currency_data['GBP'][i] for i in range(len(dates))]
 
     return render_template('linechart.html', dates=formatted_dates, usd_data=usd_data, eur_data=eur_data, gbp_data=gbp_data)
+
+
+@app.route('/data/array')
+def get_data_array():
+    currencies = Currencies.query.all()
+
+    data_array = []
+    for currency in currencies:
+        data_array.append([
+            currency.currency_name,
+            currency.currency_code,
+            currency.exchange_rate,
+            str(currency.date)
+        ])
+
+    array_string = str(data_array)
+
+    return Response(array_string, mimetype='text/plain')
 
 
 if __name__ == '__main__':
