@@ -2,10 +2,8 @@ from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import requests
 from models import db, Currency
-from config import Config
 
 app = Flask(__name__)
-app.config.from_object(Config)
 db.init_app(app)
 
 
