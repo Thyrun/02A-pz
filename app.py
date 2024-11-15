@@ -58,7 +58,7 @@ def test_db():
         if result_data is None:
             return jsonify({"error": "No result returned from the query"})
 
-        result_dict = {key: value for key, value in result_data.items()}
+        result_dict = {'test_column': result_data[0]}
 
         return jsonify({"message": "Bazo widze w tym cloudzie!", "result": result_dict})
     except Exception as e:
