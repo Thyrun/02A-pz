@@ -16,6 +16,8 @@
     <script>
         const stabilityData = {{ stability_data | tojson }};
 
+        console.log(stabilityData);
+
         const ctx = document.getElementById('stabilityChart').getContext('2d');
 
         const stabilityChart = new Chart(ctx, {
