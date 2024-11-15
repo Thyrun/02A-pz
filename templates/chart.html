@@ -22,6 +22,9 @@
 
     const ctx = document.getElementById('stabilityChart').getContext('2d');
 
+    console.log('Canvas size:', ctx.canvas.width, ctx.canvas.height);  // To ensure it's not too small
+
+
     const stabilityChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -40,19 +43,20 @@
             scales: {
                 x: {
                     beginAtZero: true,
-                    max: Math.max(...stabilityData.map(item => item[1])) * 1.1,
                     ticks: {
                         font: {
-                            size: 10
+                            size: 12
                         }
                     }
                 },
-                y: {
+                y:{
                     ticks: {
                         font: {
-                            size: 10
+                            size: 12
                         }
                     },
+                    min: 0,
+                    max: Math.max(...stabilityData.map(item => item[1])) * 1.2,
                     barPercentage: 0.6,
                     categoryPercentage: 0.8
                 }
