@@ -10,21 +10,14 @@
 <script>
     const stabilityData = {{ stability_data|tojson }};
 
-    console.log(stabilityData);
-    console.log(stabilityData.map(item => item[0]))
-    console.log(stabilityData.map(item => item[1]))
-
     const ctx = document.getElementById('stabilityChart').getContext('2d');
-
-    console.log('Canvas size:', ctx.canvas.width, ctx.canvas.height);  // To ensure it's not too small
-
 
     const stabilityChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: stabilityData.map(item => item[0]),
             datasets: [{
-                label: 'Wariancja (Stabilność)',
+                label: 'Wariancja (Stabilność, mniej to lepiej)',
                 data: stabilityData.map(item => [item[1]]),
                 backgroundColor: 'rgba(54, 162, 235, 0.6)',
                 borderColor: 'rgba(54, 162, 235, 1)',
