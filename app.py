@@ -91,9 +91,13 @@ def get_legacy_data(release_date):
             date = release_date
 
             existing_entry = Currencies.query.filter_by(currency_code=currency_code, date=date).first()
-            if not existing_entry:
+            if existing_entry:
+                existing_entry.exchange_rate = exchange_rate
+                db.session.commit()
+            else:
                 new_entry = Currencies(currency_name, currency_code, exchange_rate, date)
                 db.session.add(new_entry)
+                db.session.commit()
 
         db.session.commit()
         return jsonify({"message": "Waluty zapisane dla daty " + release_date})
