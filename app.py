@@ -184,6 +184,8 @@ def get_data_array():
     array_string = str(data_array)
 
     return Response(array_string, mimetype='text/plain')
+
+
 @app.route('/convert', methods=['GET', 'POST'])
 def convert_currency():
     from flask import request
