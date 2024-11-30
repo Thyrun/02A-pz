@@ -203,6 +203,9 @@ def convert_currency():
             from_rate_entry = Currencies.query.filter(Currencies.currency_code == from_currency, Currencies.date.isnot(None)).order_by(Currencies.date.desc()).first()
             to_rate_entry = Currencies.query.filter(Currencies.currency_code == to_currency, Currencies.date.isnot(None)).order_by(Currencies.date.desc()).first()
 
+            print(f"From Rate Entry: {from_rate_entry}")
+            print(f"To Rate Entry: {to_rate_entry}")
+
             if not from_rate_entry or not to_rate_entry:
                 return jsonify({"error": "Brak danych kursowych dla podanych walut."}), 404
 
@@ -215,7 +218,7 @@ def convert_currency():
                 from_currency=from_currency,
                 to_currency=to_currency,
                 converted_amount=round(converted_amount, 2),
-                rate_date=str(date)
+                rate_date=str(to_rate_entry.date)
             )
         except Exception as e:
             return jsonify({"error": f"Wystąpił błąd: {str(e)}"}), 500
