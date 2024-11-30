@@ -200,8 +200,8 @@ def convert_currency():
             return jsonify({"error": "Podaj poprawne dane: amount, from_currency i to_currency."}), 400
 
         try:
-            from_rate_entry = Currencies.query.filter_by(currency_code=from_currency).last()
-            to_rate_entry = Currencies.query.filter_by(currency_code=to_currency).last()
+            from_rate_entry = Currencies.query.filter(Currencies.currency_code == from_currency, Currencies.date.isnot(None)).order_by(Currencies.date.desc()).first()
+            to_rate_entry = Currencies.query.filter(Currencies.currency_code == to_currency, Currencies.date.isnot(None)).order_by(Currencies.date.desc()).first()
 
             if not from_rate_entry or not to_rate_entry:
                 return jsonify({"error": "Brak danych kursowych dla podanych walut."}), 404
