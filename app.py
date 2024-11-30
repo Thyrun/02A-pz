@@ -194,6 +194,8 @@ def convert_currency():
         amount = request.form.get('amount', type=float)
         from_currency = request.form.get('from_currency', type=str).upper()
         to_currency = request.form.get('to_currency', type=str).upper()
+        print(from_currency)
+        print(to_currency)
         date = datetime.now().date()
 
         if not amount or not from_currency or not to_currency:
