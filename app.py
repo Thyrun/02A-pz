@@ -194,6 +194,7 @@ def convert_currency():
         amount = request.form.get('amount', type=float)
         from_currency = request.form.get('from_currency', type=str).upper()
         to_currency = request.form.get('to_currency', type=str).upper()
+        date = datetime.now().date()
 
         if not amount or not from_currency or not to_currency:
             return jsonify({"error": "Podaj poprawne dane: amount, from_currency i to_currency."}), 400
@@ -204,7 +205,6 @@ def convert_currency():
 
             print(f"From Rate Entry: {from_rate_entry}")
             print(f"To Rate Entry: {to_rate_entry}")
-
 
             if not from_rate_entry or not to_rate_entry:
                 return jsonify({"error": "Brak danych kursowych dla podanych walut."}), 404
