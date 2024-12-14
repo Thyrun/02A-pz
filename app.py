@@ -168,13 +168,13 @@ def show_linechart():
     return render_template('linechart.html', dates=formatted_dates, usd_data=usd_data, eur_data=eur_data, gbp_data=gbp_data)
 
 
-@app.route('/download/<filename>')
-def download_file(filename):
-    return send_from_directory(
-        'static/downloads',
-        filename,
-        as_attachment=True
-    )
+# @app.route('/download/<filename>')
+# def download_file(filename):
+#     return send_from_directory(
+#         'static/downloads',
+#         filename,
+#         as_attachment=True
+#     )
 
 @app.route('/data/array')
 def get_data_array():
